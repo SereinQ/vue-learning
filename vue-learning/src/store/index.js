@@ -29,13 +29,17 @@ const actions = {
 const mutations = {
   SET_CARS (state, result) {
     state.cars = result
-    console.log('SET_CARS', state.cars)
   }
 }
 
 const getters = {
-  bmw1: state => {
-    return state.cars.filter(car => car.acf.session[0].title === 'BMW M140i')
+  carsMapped: state => {
+    if (!state.cars || state.cars.length === 0) {
+      return null
+    }
+    const newCarsArray = state.cars.map(el => el.acf.session[0]).filter(el => el.title.includes('Volvo'))
+
+    return newCarsArray
   }
 }
 
