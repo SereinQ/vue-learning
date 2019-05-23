@@ -7,7 +7,8 @@ Vue.use(Vuex, axios)
 
 /* eslint-disable camelcase */
 const state = {
-  cars: []
+  cars: [],
+  currentPost: null
 }
 
 const actions = {
@@ -23,12 +24,30 @@ const actions = {
     } catch (err) {
       console.error({ store: 'index/GET_ALL_CARS', error: err })
     }
+  },
+
+  async GET_POST ({commit}, slug) {
+    try {
+      const result = await axios.get(`http://tomekolszowski.com/wp-json/acf/v3/posts/${slug}`)
+
+      if (result.data) {
+        commit('SET_POST', result.data)
+      }
+
+      return null
+    } catch (err) {
+      console.err(err)
+    }
   }
 }
 
 const mutations = {
   SET_CARS (state, result) {
     state.cars = result
+  },
+
+  SET_POST (state, result) {
+    state.currentPost = result
   }
 }
 
