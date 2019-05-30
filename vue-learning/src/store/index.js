@@ -52,13 +52,30 @@ const mutations = {
 }
 
 const getters = {
-  carsMapped: state => {
+  carVolvo: state => {
     if (!state.cars || state.cars.length === 0) {
       return null
     }
-    const newCarsArray = state.cars.map(el => el.acf.session[0]).filter(el => el.title.includes('Volvo'))
 
-    return newCarsArray
+    return state.cars.map(el => el.acf.session[0]).filter(el => el.title.includes('Volvo'))
+  },
+
+  sessions: state => {
+    if (!state.cars || state.cars.length === 0) {
+      return null
+    }
+
+    return state.cars.map(car => {
+      const { id, acf } = car
+      const session = acf.session[0]
+      const { title, gallery } = session
+
+      // const id = car.id
+      // const acf = car.acf
+      // const session = acf
+
+      return { id, gallery, title }
+    })
   }
 }
 

@@ -1,20 +1,17 @@
 <template>
    <div class="start">
       <div
-         v-for="(car, index) in cars"
+         v-for="(car, index) in sessions"
          :key="index"
          >
          <span class="d-block">
-          Title: {{car.acf.session[0].title}}
+          Title: {{car.title}}
          </span>
          <span class="d-block">
            ID: {{car.id}}
          </span>
-          <span class="d-block">
-           Slug: {{car.acf.session[0].slug}}
-         </span>
          <div class="container">
-            <div class="d-inline-block" v-for="(figure, i) in car.acf.session[0].gallery" :key="i">
+            <div class="d-inline-block" v-for="(figure, i) in car.gallery" :key="i">
               <div class="d-inline-block" v-for="(img, j) in figure.row" :key="j">
               <router-link :to="{ name: 'single', params: { slug: `${car.id}` } }">
                <figure class="d-inline-block">
@@ -31,19 +28,18 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 export default {
-  data () {
-    return {
-
-    }
-  },
 
   computed: {
-    ...mapGetters(['carsMapped']),
+    ...mapGetters(['sessions']),
     ...mapState(['cars'])
   },
 
-  mounted () {
-    this.$store.dispatch('GET_ALL_CARS')
+  async mounted () {
+    await this.$store.dispatch('GET_ALL_CARS')
+    setTimeout(() => {
+      console.log(this.sessions[0].title)
+      console.log(this.sessions, 'sessions')
+    }, 1000)
   }
 }
 </script>
